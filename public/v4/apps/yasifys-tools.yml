@@ -34,13 +34,13 @@ caproverOneClickApp:
         # MongoDB
         - id: $$cap_mongodb_version
           label: MongoDB Version Tag
-          defaultValue: "4.4"
+          defaultValue: '4.4'
           description: Check out their Docker page for the valid tags https://hub.docker.com/_/mongo
           validRegex: /^([^\s^\/])+$/
 
         - id: $$cap_mongodb_root_username
           label: MongoDB Root Username
-          defaultValue: "root"
+          defaultValue: 'root'
           description: MongoDB Root Username
           validRegex: /^([^\s^\/])+$/
 
@@ -52,7 +52,7 @@ caproverOneClickApp:
 
         - id: $$cap_mongodb_database
           label: MongoDB Database
-          defaultValue: "yasifys-tools"
+          defaultValue: 'yasifys-tools'
           description: MongoDB Database
           validRegex: /^([^\s^\/])+$/
     instructions:
