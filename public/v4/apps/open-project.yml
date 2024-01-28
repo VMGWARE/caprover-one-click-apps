@@ -1,37 +1,37 @@
 captainVersion: 4
 services:
-  $$cap_appname:
-    image: openproject/community:$$cap_openproject_version
-    volumes:
-      - $$cap_appname-pgdata:/var/openproject/pgdata
-      - $$cap_appname-assets:/var/openproject/assets
-    restart: always
-    environment:
-      OPENPROJECT_HOST__NAME: $$cap_appname.$$_CAP_DOMAIN
-      OPENPROJECT_SECRET_KEY_BASE: $$cap_openproject_secret_key_base
+    $$cap_appname:
+        image: openproject/community:$$cap_openproject_version
+        volumes:
+            - $$cap_appname-pgdata:/var/openproject/pgdata
+            - $$cap_appname-assets:/var/openproject/assets
+        restart: always
+        environment:
+            OPENPROJECT_HOST__NAME: $$cap_appname.$$_CAP_DOMAIN
+            OPENPROJECT_SECRET_KEY_BASE: $$cap_openproject_secret_key_base
 
-    caproverExtra:
-      containerHttpPort: 80
+        caproverExtra:
+            containerHttpPort: 80
 caproverOneClickApp:
-  variables:
-    - id: $$cap_openproject_version
-      label: OpenProject Version
-      description: Choose the version of OpenProject to install (see https://hub.docker.com/r/openproject/community/tags)
-      defaultValue: 13
-      validRegex: /^([^\s^\/])+$/
+    variables:
+        - id: $$cap_openproject_version
+          label: OpenProject Version
+          description: Choose the version of OpenProject to install (see https://hub.docker.com/r/openproject/community/tags)
+          defaultValue: 13
+          validRegex: /^([^\s^\/])+$/
 
-    - id: $$cap_openproject_secret_key_base
-      label: OpenProject Secret Key Base
-      description: OpenProject Secret Key Base
-      defaultValue: $$cap_gen_random_hex(64)
-      validRegex: /^([^\s^\/])+$/
-  instructions:
-    start: |-
-      Efficient classic, agile or hybrid project management in a secure environment.
-    end: |-
-      OpenProject is now installed and running. You can access it at $$cap_root_domain. It may take a few minutes for the application to start.
+        - id: $$cap_openproject_secret_key_base
+          label: OpenProject Secret Key Base
+          description: OpenProject Secret Key Base
+          defaultValue: $$cap_gen_random_hex(64)
+          validRegex: /^([^\s^\/])+$/
+    instructions:
+        start: |-
+            Efficient classic, agile or hybrid project management in a secure environment.
+        end: |-
+            OpenProject is now installed and running. You can access it at $$cap_root_domain. It may take a few minutes for the application to start.
 
-      The default username is admin and the default password is admin. You can must change the password after logging in.
-  displayName: OpenProject
-  isOfficial: false
-  description: OpenProject is a web-based project management software.
+            The default username is admin and the default password is admin. You can must change the password after logging in.
+    displayName: OpenProject
+    isOfficial: false
+    description: OpenProject is a web-based project management software.
