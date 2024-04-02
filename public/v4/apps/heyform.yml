@@ -48,6 +48,8 @@ services:
             SMTP_PASSWORD: $$cap_smtp_password
         caproverExtra:
             containerHttpPort: 8000
+        volumes:
+            - $$cap_appname-uploads:/app/static/upload
 caproverOneClickApp:
     variables:
         - id: $$cap_version
