@@ -1,0 +1,66 @@
+captainVersion: 4
+services:
+    $$cap_appname-db:
+        image: postgres:$$cap_postgres_version
+        restart: always
+        volumes:
+            - $$cap_appname-postgres-data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: $$cap_postgres_user
+            POSTGRES_PASSWORD: $$cap_postgres_password
+            POSTGRES_DB: astuto
+        caproverExtra:
+            containerHttpPort: 5432
+            notExposeAsWebApp: true
+
+    $$cap_appname:
+        image: riggraz/astuto:$$cap_astuto_version
+        restart: always
+        environment:
+            POSTGRES_HOST: srv-captain--$$cap_appname-db
+            POSTGRES_USER: $$cap_postgres_user
+            POSTGRES_PASSWORD: $$cap_postgres_password
+            BASE_URL: http://$$cap_appname.$$cap_root_domain
+            SECRET_KEY_BASE: $$cap_secret_key_base
+        caproverExtra:
+            containerHttpPort: 3000
+
+caproverOneClickApp:
+    variables:
+        - id: $$cap_astuto_version
+          label: Astuto Version
+          defaultValue: 'latest'
+          description: Check out their Docker page for the valid tags https://hub.docker.com/r/riggraz/astuto/tags
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_postgres_version
+          label: Postgres Version
+          description: Check out their Docker page for the valid tags https://hub.docker.com/_/postgres/tags
+          defaultValue: 14.5
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_postgres_user
+          label: PostgreSQL Username
+          defaultValue: 'astuto'
+          description: PostgreSQL Username
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_postgres_password
+          label: PostgreSQL Password
+          defaultValue: $$cap_gen_random_hex(32)
+          description: PostgreSQL Password
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_secret_key_base
+          label: Secret
+          defaultValue: $$cap_gen_random_hex(64)
+          description: Secret
+          validRegex: /^([^\s^\/])+$/
+    instructions:
+        start: |-
+            Install Astuto, a free, open source, self-hosted customer feedback tool 🦊
+        end: |-
+            Astuto has been successfully installed. You can now access it at http://$$cap_appname.$$cap_root_domain.
+    displayName: Astuto
+    isOfficial: false
+    description: A free, open source, self-hosted customer feedback tool 🦊
