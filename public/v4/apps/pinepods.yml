@@ -1,0 +1,100 @@
+captainVersion: 4
+services:
+    $$cap_appname-db:
+        image: mariadb:$$cap_db_version
+        environment:
+            MYSQL_TCP_PORT: 3306
+            MYSQL_ROOT_PASSWORD: $$cap_db_root_password
+            MYSQL_DATABASE: pypods
+            MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+            MYSQL_CHARACTER_SET_SERVER: utf8mb4
+            MYSQL_INIT_CONNECT: 'SET @@GLOBAL.max_allowed_packet=64*1024*1024;'
+        volumes:
+            - $$cap_appname-db-data:/var/lib/mysql
+        restart: always
+        caproverExtra:
+            notExposeAsWebApp: 'true'
+
+    $$cap_appname:
+        image: madeofpendletonwool/pinepods:$$cap_pinepods_version
+        environment:
+            SEARCH_API_URL: $$cap_search_api_url
+            USERNAME: $$cap_username
+            PASSWORD: $$cap_password
+            FULLNAME: $$cap_fullname
+            EMAIL: $$cap_email
+            # Database Vars
+            DB_TYPE: mariadb
+            DB_HOST: srv-captain--$$cap_appname-db
+            DB_PORT: 3306
+            DB_USER: root
+            DB_PASSWORD: $$cap_db_root_password
+            DB_NAME: pypods
+            # Enable or Disable Debug Mode for additional Printing
+            DEBUG_MODE: False
+        volumes:
+            - $$cap_appname-downloads:/opt/pinepods/downloads
+            - $$cap_appname-backups:/opt/pinepods/backups
+        restart: always
+        caproverExtra:
+            containerHttpPort: '8040'
+
+caproverOneClickApp:
+    variables:
+        # MySQL
+        - id: $$cap_db_version
+          label: MariaDB Version Tag
+          defaultValue: 'latest'
+          description: Check out their Docker page for the valid tags https://hub.docker.com/r/library/mariadb/tags/
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_pinepods_version
+          label: Pinepods Version Tag
+          defaultValue: 'latest'
+          description: Check out the Pinepods Docker page for the valid tags https://hub.docker.com/r/madeofpendletonwool/pinepods/tags/
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_db_root_password
+          label: MySQL Root Password
+          defaultValue: $$cap_gen_random_hex(32)
+          description: MySQL Root Password
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_search_api_url
+          label: Search API URL
+          defaultValue: 'https://search.pinepods.online/api/search'
+          description: Search API URL
+          validRegex: /.{1,}/
+
+        - id: $$cap_username
+          label: Admin Username
+          defaultValue: 'myadminuser01'
+          description: Admin Username
+          validRegex: /^([^\s^\/])+$/
+
+        - id: $$cap_password
+          label: Admin Password
+          defaultValue: $$cap_gen_random_hex(32)
+          description: Admin Password
+          validRegex: /.{1,}/
+
+        - id: $$cap_fullname
+          label: Admin Full Name
+          defaultValue: 'Pinepods Admin'
+          description: Admin Full Name
+          validRegex: /.{1,}/
+
+        - id: $$cap_email
+          label: Admin Email
+          defaultValue: ''
+          description: Admin Email
+          validRegex: /^([^\s^\/])+$/
+    instructions:
+        start: >-
+            PinePods is a Rust based app that can sync podcasts for individual accounts that relies on a central database with a web frontend and apps available on multiple platforms.
+        end: >-
+            Please wait for 2 minutes.
+    displayName: PinePods
+    isOfficial: false
+    description: A Forest of Podcasts, Rooted in the Spirit of Self-Hosting
+    documentation: https://www.pinepods.online/
