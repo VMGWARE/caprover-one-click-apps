@@ -1,7 +1,7 @@
 captainVersion: 4
 services:
     $$cap_appname-mysql:
-        image: mysql:8.0-oracle
+        image: mysql:$$cap_appname_mysql_version
         environment:
             MYSQL_DATABASE: zabbix
             MYSQL_USER: "zabbix"
@@ -70,6 +70,12 @@ caproverOneClickApp:
           description: Timezone
 
         # MYSQL
+        - id: $$cap_appname_mysql_version
+          label: MySQL Version
+          defaultValue: '8.0-oracle'
+          description: Check out the MySQL Docker page for the valid tags https://hub.docker.com/_/mysql
+          validRegex: /^([^\s^\/])+$/
+
         - id: $$cap_db_root_password
           label: MySQL Root Password
           defaultValue: $$cap_gen_random_hex(32)
