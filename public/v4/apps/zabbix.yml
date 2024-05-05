@@ -46,7 +46,7 @@ services:
         image: zabbix/zabbix-agent:alpine-$$cap_zabbix_version
         environment:
             ZBX_SERVER_HOST: srv-captain--$$cap_appname-server
-            ZBX_HOSTNAME: "Zabbix server"
+            ZBX_HOSTNAME: 'Zabbix server'
         restart: always
         caproverExtra:
             notExposeAsWebApp: 'true'
