@@ -74,9 +74,9 @@ caproverOneClickApp:
           validRegex: /^([^\s^\/])+$/
 
         - id: $$cap_php_timezone
-          label: Timezone
+          label: PHP Timezone
           defaultValue: 'America/New_York'
-          description: Timezone
+          description: PHP Timezone
 
         # MYSQL
         - id: $$cap_appname_mysql_version
