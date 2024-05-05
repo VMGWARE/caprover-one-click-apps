@@ -95,10 +95,12 @@ caproverOneClickApp:
           defaultValue: $$cap_gen_random_hex(32)
           description: Zabbix Password
     instructions:
-        start: >-
+        start: |-
             Zabbix is a powerful open-source monitoring solution for keeping tabs on your infrastructure's health and performance.
-        end: >-
-            Zabbix is now running on your server. You can access the web interface by visiting the following URL: http://$$cap_appname.$$cap_root_domain. The default username is "Admin" and the default password is "zabbix". You can change the password after logging in.
+        end: |-
+            Zabbix is now running on your server. 
+            You can access the web interface by visiting the following URL: http://$$cap_appname.$$cap_root_domain. 
+            The default username is "Admin" and the default password is "zabbix". You can change the password after logging in.
     displayName: Zabbix
     isOfficial: true
     description: Zabbix is a powerful open-source monitoring solution for keeping tabs on your infrastructure's health and performance.
